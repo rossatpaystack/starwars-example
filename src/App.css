@@ -1,6 +1,3 @@
-.App {
-  text-align: center;
-}
 
 svg.logo {
   animation: grow 3s;
@@ -9,7 +6,8 @@ svg.logo {
   fill:#ffd700
 }
 
-.App-header {
+.splash {
+  text-align: center;
   background-color: #10141d;
   min-height: 100vh;
   display: flex;
@@ -18,10 +16,6 @@ svg.logo {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes grow {
