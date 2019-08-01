@@ -1,7 +1,6 @@
 import React from 'react';
-import './App.css';
 
-import Splash from './components/splash/Splash';
+import Splash from 'components/splash/Splash';
 
 function App() {
   return (
