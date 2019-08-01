@@ -1,5 +1,7 @@
 Live version at: https://paystack.rossdmartin.com/
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/bb907083-98a2-4c8e-ade6-eb18fceb5215/deploy-status)](https://app.netlify.com/sites/friendly-shannon-0e1606/deploys)
+
 ---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
