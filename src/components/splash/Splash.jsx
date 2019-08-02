@@ -6,21 +6,31 @@ import grow from 'styles/animations/grow';
 // embed logo as svg - https://facebook.github.io/create-react-app/docs/adding-images-fonts-and-files#adding-svgs
 import { ReactComponent as Logo } from 'images/logo.svg';
 
-const Background = styled.section`
-    text-align: center;
-    background-color: #10141d;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+import {Stars, Twinkling} from 'styles/backgrounds/stars';
+
+
+const StarBackground = styled.section`
+    ${Stars}
+`;
+
+const TwinkleBackground = styled.section`
+    ${Twinkling}
+`;
+
+const Container = styled.section`
+  text-align: center;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 `;
 
 const StyledLogo = styled(Logo)`
-    height: 40vmin;
     fill:#ffd700
+    z-index:3
 
     ${grow}
 `;
@@ -28,9 +38,16 @@ const StyledLogo = styled(Logo)`
 const Splash = () => {
 
   return (
-    <Background>
+    <div>
+      <StarBackground>
+        <TwinkleBackground>
+        </TwinkleBackground>
+      </StarBackground>
+ 
+      <Container>
         <StyledLogo />
-    </Background>
+      </Container>
+    </div>
   );
 };
 
