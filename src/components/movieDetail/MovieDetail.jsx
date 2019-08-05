@@ -5,6 +5,8 @@ import { getFilm } from 'service/FilmService';
 
 import MovieCrawl from 'components/movieDetail/MovieCrawl';
 
+import MoviePeople from 'components/people/MoviePeople';
+
 const Container = styled.section`
   text-align: center;
   min-height: 80vh;
@@ -37,6 +39,7 @@ const MovieDetail = (props) => {
         <Container>
             <h1>{film.title}</h1>
             <MovieCrawl film={film}></MovieCrawl>
+            <MoviePeople film={film}></MoviePeople>
         </Container>
     );
 };
