@@ -2,11 +2,15 @@ import React from 'react'
 import { Select } from 'semantic-ui-react'
 import log from 'loglevel';
 
-const handleOnChange = (e, data) => {
+import { withRouter } from "react-router";
+
+const handleOnChange = (e, data, history) => {
     log.debug('selected film: %s', data.value);
+
+    history.push(`/film/${data.value}`)
 }
 
-const MovieSelect = React.memo(props => {
+const MovieSelect = withRouter(({history, ...props}) => {
     let films = props.films;
 
     let sorted = films.sort((a, b) => new Date(a.release_date) - new Date(b.release_date));
@@ -23,8 +27,8 @@ const MovieSelect = React.memo(props => {
     })
 
     return (
-        <Select placeholder='Choose a movie' options={options} onChange={handleOnChange}/>
+        <Select placeholder='Choose a movie' options={options} onChange={(e, data)=> handleOnChange(e, data, history)}/>
     );
 });
 
-export default MovieSelect;
+export default withRouter(MovieSelect);
