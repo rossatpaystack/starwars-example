@@ -17,6 +17,7 @@ const Container = styled.section`
 `;
 
 const MoviePeople = (props) => {
+  log.debug('MoviePeople film: %o', props.film);
 
     useEffect(() => {
 
@@ -27,7 +28,7 @@ const MoviePeople = (props) => {
             <h1>Characters</h1>
             <p>people here: {props.film.episode_id}</p>
 
-            <PeopleTable />
+            <PeopleTable film={props.film} />
         </Container>
     );
 };

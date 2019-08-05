@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Table } from 'semantic-ui-react'
 import _ from 'lodash'
+import log from 'loglevel';
+
+import { byFilm } from 'service/PeopleService';
 
 const tableData = [
     { name: 'John', age: 15, gender: 'Male' },
@@ -13,9 +16,9 @@ export default class PeopleTable extends Component {
     state = {
       column: null,
       data: tableData,
-      direction: null,
+      direction: null
     }
-  
+
     handleSort = clickedColumn => () => {
       const { column, data, direction } = this.state
   
@@ -37,6 +40,15 @@ export default class PeopleTable extends Component {
   
     render() {
       const { column, data, direction } = this.state
+
+      let film = this.props.film;
+
+      log.debug('PeopleTable film: %o', film);
+    if (film && film.characters) {
+        let characters = byFilm(film);
+
+
+    }
   
       return (
         <Table sortable celled fixed>
