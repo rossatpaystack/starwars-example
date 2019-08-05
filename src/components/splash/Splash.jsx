@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 import grow from 'styles/animations/grow';
@@ -7,6 +7,8 @@ import grow from 'styles/animations/grow';
 import { ReactComponent as Logo } from 'images/logo.svg';
 
 import {Stars, Twinkling} from 'styles/backgrounds/stars';
+import MovieSelect from './MovieSelect';
+import {getFilms} from 'service/FilmService';
 
 
 const StarBackground = styled.section`
@@ -24,7 +26,6 @@ const Container = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 `;
 
@@ -37,6 +38,14 @@ const StyledLogo = styled(Logo)`
 
 const Splash = () => {
 
+  const [films, setFilms] = useState([]);
+
+  useEffect(() => {
+    getFilms().then( films => {
+      setFilms(films);
+    });
+  }, []);
+
   return (
     <div>
       <StarBackground>
@@ -46,6 +55,7 @@ const Splash = () => {
  
       <Container>
         <StyledLogo />
+        <MovieSelect films={films}/>
       </Container>
     </div>
   );
