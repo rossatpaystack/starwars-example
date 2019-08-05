@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { getFilm } from 'service/FilmService';
 import PeopleTable from './PeopleTable';
 
-
 const Container = styled.section`
   text-align: center;
   display: flex;
@@ -17,6 +16,7 @@ const Container = styled.section`
 `;
 
 const MoviePeople = (props) => {
+  // log.debug('MoviePeople film: %o', props.film);
 
     useEffect(() => {
 
@@ -25,9 +25,7 @@ const MoviePeople = (props) => {
     return (
         <Container>
             <h1>Characters</h1>
-            <p>people here: {props.film.episode_id}</p>
-
-            <PeopleTable />
+            <PeopleTable film={props.film} />
         </Container>
     );
 };
