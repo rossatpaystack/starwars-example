@@ -1,6 +1,6 @@
 import {css} from 'styled-components'
 const grow = css`
-    animation: grow 3s;
+    animation: grow 2s;
 
     @keyframes grow {
         from {

@@ -42,7 +42,8 @@ const Splash = () => {
 
   useEffect(() => {
     getFilms().then( films => {
-      setFilms(films);
+      let sorted = films.sort((a, b) => new Date(a.release_date) - new Date(b.release_date));
+      setFilms(sorted);
     });
   }, []);
 

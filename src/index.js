@@ -10,12 +10,13 @@ import App from 'App';
 
 const MovieDetail = lazy(() => import('components/movieDetail/MovieDetail'));
 
-
 const routing = (
   <Router>
     <div>
+      <App />
     <Switch>
-      <Route exact path="/" component={App} />
+      
+      {/* <Route exact path="/" component={App} /> */}
       <Route path="/film/:id" component={LoadingComponent(MovieDetail)} />
     </Switch>
     </div>

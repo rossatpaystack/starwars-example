@@ -10,15 +10,11 @@ const handleOnChange = (e, data, history) => {
     history.push(`/film/${data.value}`)
 }
 
-const MovieSelect = withRouter(({history, ...props}) => {
+const MovieSelect = React.memo(withRouter(({history, ...props}) => {
     let films = props.films;
 
-    let sorted = films.sort((a, b) => new Date(a.release_date) - new Date(b.release_date));
-
-    log.debug('sorted films: %o', sorted);
-    
     let options = [];
-    sorted.forEach(function(film) {
+    films.forEach(function(film) {
         options.push({
             key: film.episode_id,
             value: film.episode_id,
@@ -29,6 +25,6 @@ const MovieSelect = withRouter(({history, ...props}) => {
     return (
         <Select placeholder='Choose a movie' options={options} onChange={(e, data)=> handleOnChange(e, data, history)}/>
     );
-});
+}));
 
 export default withRouter(MovieSelect);

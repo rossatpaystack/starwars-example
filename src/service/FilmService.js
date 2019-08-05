@@ -16,7 +16,7 @@ export const getFilms = () => {
 
         } else {
             getData(URL).then( response => {
-
+                films = [];
                 response.results.forEach((film) => {
                     films.push(film);
                 });
@@ -35,3 +35,27 @@ export const getFilms = () => {
       return promise;
 };
 
+let byID = (films, id) => {
+    // log.debug('byID: %s', id)
+    return films.filter(obj => {
+        // log.debug('filter %o', obj);
+        return obj['episode_id'] == id;
+    })[0];
+}
+
+export const getFilm = (id) => {
+    // log.debug('getFilm: %s', id);
+    var promise = new Promise(function(resolve, reject) {
+        // log.debug('films.length: %s', films.length);
+        if (films.length > 0) {
+            resolve(byID(films, id));
+
+        } else {
+            getFilms().then( films => {
+                resolve(byID(films, id));
+            });
+        }
+    });
+
+    return promise;
+};

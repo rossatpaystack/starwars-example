@@ -1,26 +1,43 @@
-import React from 'react'
-import {withRouter} from 'react-router';
+import React, { useState, useEffect } from 'react'
 import log from 'loglevel';
+import styled from 'styled-components';
+import { getFilm } from 'service/FilmService';
 
-const handleOnChange = (e, data) => {
-    log.debug('selected film: %s', data.value);
+import MovieCrawl from 'components/movieDetail/MovieCrawl';
 
-    // <Redirect to="/dashboard" />
-}
+const Container = styled.section`
+  text-align: center;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  z-index:4
+`;
 
 const MovieDetail = (props) => {
-    // let films = props.films;
-
-    log.debug('moviedetail: %o ', props)
-
     const { match: { params } } = props
+    let id = params.id;
 
-    log.debug('params: %o', params)
+    const [film, setFilm] = useState({});
 
+    // log.debug('MovieDetail: %s, %o', id, film);
+
+    useEffect(() => {
+        getFilm(id).then( film => {
+            setFilm(film);
+
+            // log.debug('getFilm: %o', film)
+        });
+      }, [id]);
+
+    // log.debug('film: %o', film);
     return (
-        <div>
-            Movies are great
-        </div>
+        <Container>
+            <h1>{film.title}</h1>
+            <MovieCrawl film={film}></MovieCrawl>
+        </Container>
     );
 };
 
