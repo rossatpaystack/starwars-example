@@ -2,6 +2,7 @@ import { getData } from 'service/Service';
 import log from 'loglevel';
 
 const URL = 'https://swapi.co/api/films';
+// const URL = 'http://localhost/films';
 
 let films = [];
 
@@ -26,8 +27,10 @@ export const getFilms = () => {
                     resolve(films);
                   }
                   else {
-                    reject(Error("unable to retrieve films"));
+                    reject(new Error("unable to retrieve films"));
                   }
+            }).catch(error => {
+                reject(new Error("unable to retrieve films"));
             });
         }
       });
@@ -36,24 +39,26 @@ export const getFilms = () => {
 };
 
 let byID = (films, id) => {
-    // log.debug('byID: %s', id)
     return films.filter(obj => {
-        // log.debug('filter %o', obj);
+        // eqeq comparison since swapi uses strings
+
+        // eslint-disable-next-line eqeqeq
         return obj['episode_id'] == id;
     })[0];
 }
 
 export const getFilm = (id) => {
-    // log.debug('getFilm: %s', id);
     var promise = new Promise(function(resolve, reject) {
-        // log.debug('films.length: %s', films.length);
         if (films.length > 0) {
             resolve(byID(films, id));
 
         } else {
             getFilms().then( films => {
                 resolve(byID(films, id));
-            });
+            }).catch(error => {
+                log.error('error getting film %s, %s', id, error);
+                reject(new Error(error));
+              });
         }
     });
 

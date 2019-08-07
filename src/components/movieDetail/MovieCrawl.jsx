@@ -1,38 +1,53 @@
 import React from 'react'
-import log from 'loglevel';
 import styled from 'styled-components';
+
+import marquee from 'styles/animations/marquee';
 
 const MovieCrawl = (props) => {
     let film = props.film;
 
-    //todo: https://codepen.io/geoffgraham/pen/BpwqOE
+    //todo: better animation, e.g. https://codepen.io/geoffgraham/pen/BpwqOE
 
     const Crawl = styled.section`
-    padding-top:15px;
-    max-width:400px;
+        display: block;
+        width: 200%;
+        height: 200px;
 
-    -webkit-animation: moving 5s forwards;
-    animation: moving 5s forwards;
+        font-family: monospace; /* Web-safe typewriter-like font */
+        border-right: .15em solid orange; /* The typwriter cursor */
+        margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+        letter-spacing: .15em; /* Adjust as needed */
+        animation: 
+            typing 3.5s steps(30, end),
+            blinking-cursor .5s step-end infinite;
 
-    @-webkit-keyframes moving {
-        from {-webkit-transform: translateY(0px);}
-        to {-webkit-transform: translateY(-15px);}
-    }
+          /* The typing effect */
+          @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+          }
+          
+          /* The typewriter cursor effect */
+          @keyframes blinking-cursor {
+            from, to { border-color: transparent }
+            50% { border-color: orange; }
+          }
+    `;
+
+    let Container = styled.section`
+        height: 200px;
+        width: 420px;
     
-    @keyframes moving {
-        from {transform: translateY(0px);}
-        to {transform: translateY(-15px);}
-    }
+        overflow: hidden;
+        position: relative;
     `;
 
     return (
-        <div>
+        <Container>
             <Crawl>
                 {film.opening_crawl}
             </Crawl>
-
-
-        </div>
+        </Container>
     );
 };
 

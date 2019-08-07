@@ -26,50 +26,28 @@ export const getPeople = () => {
 
                 log.info("fetched %s people: %o", people.length, people);
                 resolve(people);
-            });
+            }).catch(error => {
+                reject(new Error("unable to retrieve people"));
+            });;
         }
       });
 
       return promise;
 };
 
-let byID = (people, id) => {
-    // log.debug('byID: %s', id)
-    console.log('byID: ' + people.length);
-    return people.filter(obj => {
-        // log.debug('filter %o', obj);
-        // eslint-disable-next-line eqeqeq
-        return obj['episode_id'] == id;
-    })[0];
-}
-
-
-//determine film id: href.split('/');
 export const byFilm = async(film) => {
 
         let promises = [];
 
-        let characters = [];
-        // film.characters.forEach(async(url) => {
         for (const url of film.characters) {
             //"https://swapi.co/api/people/8/"
 
             promises.push(getPerson(url));
-
-            /*
-            const person = await getPerson(url);
-            console.log('person: %s', person)
-            characters.push(person);
-            */
         }
 
         let results = await Promise.all(promises);
 
-
         return results;
-
-        // resolve(characters);
-    // });
 }
 
 export const getPerson = (url) => {
@@ -85,7 +63,9 @@ export const getPerson = (url) => {
         } else {
             getData(url).then( person => {
                 resolve(person);
-            });
+            }).catch(error => {
+                reject(new Error("unable to retrieve person " + url));
+            });;
         }
       });
 

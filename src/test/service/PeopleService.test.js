@@ -1,13 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import log from 'loglevel';
 
 import { getFilm } from 'service/FilmService';
 import { byFilm, getPerson } from 'service/PeopleService';
 
 //todo: mock api calls
 
-it.skip('fetches a person', async () => {
+it('fetches a person', async () => {
+  jest.setTimeout(5000);
   let url = 'https://swapi.co/api/people/1/';
   let person = await getPerson(url);
 
@@ -17,7 +15,7 @@ it.skip('fetches a person', async () => {
 });
 
 it('fetches characters', async () => {
-  jest.setTimeout(20000);
+  jest.setTimeout(5000);
 
   let id = 1;
 

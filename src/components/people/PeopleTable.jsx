@@ -1,36 +1,30 @@
-import React, { Component, useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table } from 'semantic-ui-react'
 import _ from 'lodash'
-import _isEqual from 'lodash/isEqual';
 import styled from "styled-components";
 
-import log from 'loglevel';
-
-import { byFilm } from 'service/PeopleService';
-
-const tableData = [
-    { name: 'John', age: 15, gender: 'Male' },
-    { name: 'Amber', age: 40, gender: 'Female' },
-    { name: 'Leslie', age: 25, gender: 'Other' },
-    { name: 'Ben', age: 70, gender: 'Male' },
-  ]
-
-
 const SummaryTableCell = styled(Table.Cell)`
-&&& {
-  text-align:center
-}
+  &&& {
+    text-align:center
+  }
 `;
 
-const PeopleTable2 = (props) => {
+const PeopleTable = (props) => {
 
     const [state, setState] = useState({
         column: null,
         data: [],
         direction: null,
         film: null,
-        characters: null
+        characters: props.characters
     });
+
+    useEffect(() => {
+      setState({
+        ...state,
+        characters: props.characters
+      })
+    }, [props.characters]);
 
     let handleSort = clickedColumn => () => {
         const { column, characters, direction } = state
@@ -53,25 +47,10 @@ const PeopleTable2 = (props) => {
         })
       }
 
-    useEffect(() => {
-        let film = props.film;
-        if (film && film.characters) {
-          byFilm(film).then(function(characters) {
-
-            setState({
-              ...state,
-              characters
-            })
-            
-           log.debug('PeopleTable characters: %o', characters)
-          });
-        }
-      }, [props.film]);
-
     const { column, characters, direction } = state
 
       //figure out total height
-      //170 cm (5ft/6.93in)
+      //e.g. 170 cm (5ft/6.93in)
 
       let getImperialMeasurements =(n) => {
         var realFeet = ((n*0.393700787) / 12);
@@ -81,9 +60,7 @@ const PeopleTable2 = (props) => {
           feet,
           inches
         }
-        return feet + "&prime;" + inches + '&Prime;';
       }
-
 
       let heightInCM = 0;
       _.each(characters, (character) => {
@@ -147,4 +124,4 @@ const PeopleTable2 = (props) => {
     );
 };
 
-export default PeopleTable2;
+export default PeopleTable;

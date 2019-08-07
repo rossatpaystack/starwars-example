@@ -51,6 +51,7 @@
     "react-dom": "^16.8.6",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
+    "react-spinkit": "^3.0.0",
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
     "semantic-ui-css": "^2.4.1",
@@ -109,7 +110,9 @@
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
       "^.+\\.module\\.(css|sass|scss)$"
     ],
-    "modulePaths": ["<rootDir>/src"],
+    "modulePaths": [
+      "<rootDir>/src"
+    ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
       "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"

@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import log from 'loglevel';
 import styled from 'styled-components';
-import { getFilm } from 'service/FilmService';
+import Spinner from 'react-spinkit';
+
 import PeopleTable from './PeopleTable';
+import PeopleFilter from 'components/people/PeopleFilter';
+
+import { byFilm } from 'service/PeopleService';
 
 const Container = styled.section`
   text-align: center;
@@ -16,16 +20,52 @@ const Container = styled.section`
 `;
 
 const MoviePeople = (props) => {
-  // log.debug('MoviePeople film: %o', props.film);
 
-    useEffect(() => {
+  const [state, setState] = useState({
+    characters: [],
+    genders: [],
+    loaded: false
+});
 
-      }, []);
+  useEffect(() => {
+    let film = props.film;
+    if (film && film.characters) {
+      byFilm(film).then(function(characters) {
+
+        let genders = [...new Set(characters.map(character => character.gender))];
+
+        log.debug('genders: %o', genders);
+
+        setState({
+          ...state,
+          genders,
+          characters,
+          loaded: true
+        })
+        
+       log.debug('MoviePeople characters: %o', characters)
+      });
+    }
+  }, [props.film]);
+
+    let genders = state.genders;
+    let loaded = state.loaded;
+    let characters = state.characters;
+
+    log.debug('MoviePeople %s characters', characters)
 
     return (
         <Container>
-            <h1>Characters</h1>
-            <PeopleTable film={props.film} />
+            {loaded ? (
+              <Fragment>
+                <h1>Characters</h1>
+                <PeopleFilter film={props.film} genders={genders} />
+                <PeopleTable film={props.film} characters={characters} />
+              </Fragment>
+
+            ) : (
+              <Spinner name="line-scale" />
+            )}
         </Container>
     );
 };
