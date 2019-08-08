@@ -1,39 +1,7 @@
 import { getData } from 'service/Service';
 import log from 'loglevel';
 
-const URL = 'https://swapi.co/api/people';
-
-let people = [];
-let loaded = false;
-
-export const getPeople = () => {
-
-    var promise = new Promise(function(resolve, reject) {
-
-        if (loaded) {
-            log.info('using cached films');
-
-            resolve(people);
-
-        } else {
-            getData(URL).then( response => {
-                people = [];
-                response.results.forEach((character) => {
-                    people.push(character);
-                });
-
-                loaded = true;
-
-                log.info("fetched %s people: %o", people.length, people);
-                resolve(people);
-            }).catch(error => {
-                reject(new Error("unable to retrieve people"));
-            });;
-        }
-      });
-
-      return promise;
-};
+let peopleByURL = new Map();
 
 export const byFilm = async(film) => {
 
@@ -54,15 +22,31 @@ export const getPerson = (url) => {
 
     var promise = new Promise(function(resolve, reject) {
 
-        if (false) {
-            log.info('using cached films');
-            let person = null;
+        if (peopleByURL.has(url)) {
+            log.info('using cached person');
+            let person = peopleByURL.get(url);
 
             resolve(person);
 
         } else {
             getData(url).then( person => {
-                resolve(person);
+
+                let formattedHeight = person.height;
+
+                // if numeric, some heights may be 'unknown'
+                if(!isNaN(person.height)) {
+                    formattedHeight = parseInt(person.height, 10);
+                }
+
+                // store height as a number if possible
+                let formattedPerson = {
+                    ...person,
+                    height: formattedHeight
+                };
+
+                peopleByURL.set(url, formattedPerson);
+
+                resolve(formattedPerson);
             }).catch(error => {
                 reject(new Error("unable to retrieve person " + url));
             });;
