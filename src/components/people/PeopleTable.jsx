@@ -3,6 +3,9 @@ import { Table } from 'semantic-ui-react'
 import _ from 'lodash'
 import styled from "styled-components";
 
+import log from 'loglevel';
+
+
 const SummaryTableCell = styled(Table.Cell)`
   &&& {
     text-align:center
@@ -30,6 +33,7 @@ const PeopleTable = (props) => {
         const { column, characters, direction } = state
 
         if (column !== clickedColumn) {
+
           setState({
             ...state,
             column: clickedColumn,
@@ -38,13 +42,15 @@ const PeopleTable = (props) => {
           })
     
           return
+        } else {
+          setState({
+            ...state,
+            characters: characters.reverse(),
+            direction: direction === 'ascending' ? 'descending' : 'ascending',
+          })
         }
     
-        setState({
-          ...state,
-          characters: characters.reverse(),
-          direction: direction === 'ascending' ? 'descending' : 'ascending',
-        })
+
       }
 
     const { column, characters, direction } = state
@@ -81,6 +87,8 @@ const PeopleTable = (props) => {
     if (characters && characters.length) {
       summary.total = characters.length;
     }
+
+    log.debug('PeopleTable characters %o', characters);
 
     return (
         <Table sortable celled fixed>

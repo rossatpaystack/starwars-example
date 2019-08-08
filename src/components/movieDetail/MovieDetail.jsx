@@ -7,7 +7,6 @@ import MovieCrawl from 'components/movieDetail/MovieCrawl';
 import MoviePeople from 'components/people/MoviePeople';
 import ErrorMessage from 'components/error/ErrorMessage';
 
-
 const Container = styled.section`
   text-align: center;
   min-height: 80vh;
