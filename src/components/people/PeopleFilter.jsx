@@ -37,7 +37,7 @@ const PeopleFilter = withRouter(({history, ...props}) => {
   })
 
   return (
-      <Select placeholder='Filter by gender' defaultValue={props.selected}  options={options} onChange={(e, data)=> handleOnChange(e, data, history, film)}/>
+      <Select placeholder='Filter by gender' value={props.selected}  options={options} onChange={(e, data)=> handleOnChange(e, data, history, film)}/>
   );
 });
 

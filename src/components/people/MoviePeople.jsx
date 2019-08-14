@@ -62,14 +62,13 @@ const MoviePeople = (props) => {
     let genders = state.genders;
     let loaded = state.loaded;
     let characters = state.characters;
-    let selectedGender = state.selectedGender;
 
     return (
         <Container>
             {loaded ? (
               <>
                 <h1>Characters</h1>
-                <PeopleFilter film={props.film} genders={genders} selected={selectedGender} />
+                <PeopleFilter film={props.film} genders={genders} selected={props.gender} />
                 <PeopleTable film={props.film} characters={characters} />
               </>
             ) : (
