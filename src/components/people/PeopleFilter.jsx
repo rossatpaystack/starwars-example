@@ -8,7 +8,11 @@ const handleOnChange = (e, data, history, film) => {
   let filmId = film.episode_id;
   let gender = data.value;
 
-  history.push(`/film/${filmId}/characters?gender=${gender}`)
+  if (gender === 'all') {
+    history.push(`/film/${filmId}`)
+  } else {
+    history.push(`/film/${filmId}/characters?gender=${gender}`)
+  }
 }
 
 const PeopleFilter = withRouter(({history, ...props}) => {
@@ -18,6 +22,12 @@ const PeopleFilter = withRouter(({history, ...props}) => {
   log.debug('PeopleFilter props: %o', props)
 
   let options = [];
+  options.push({
+    key: 'all',
+    value: 'all',
+    text: 'Show all'
+  });
+
   genders.forEach(function(gender) {
       options.push({
           key: gender,
