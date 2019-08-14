@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Table } from 'semantic-ui-react'
 import _ from 'lodash'
 import styled from "styled-components";
+import log from 'loglevel';
 
 const SummaryTableCell = styled(Table.Cell)`
   &&& {
@@ -31,10 +32,34 @@ const PeopleTable = (props) => {
         
         if (column !== clickedColumn) {
 
+          let sorted = _.sortBy(characters, [clickedColumn]);
+
+          if (clickedColumn == 'height') {
+            // log.debug('sortHeights')
+            
+            // lodash can't sort mixed content 
+            // so treat string values as 0
+            log.debug('custom height sort')
+              sorted.sort(function(a, b) {
+                let aHeight = a.height;
+                let bHeight = b.height;
+
+                if (Number.isNaN(a.height)) {
+                  aHeight = 0;
+                }
+
+                if (Number.isNaN(b.height)) {
+                  bHeight = 0;
+                }
+
+                return aHeight > 1;
+              });
+          }
+
           setState({
             ...state,
             column: clickedColumn,
-            characters: _.sortBy(characters, [clickedColumn]),
+            characters: sorted,
             direction: 'ascending',
           })
     
