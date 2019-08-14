@@ -9,37 +9,20 @@ const MovieCrawl = (props) => {
     //todo: better animation, e.g. https://codepen.io/geoffgraham/pen/BpwqOE
 
     const Crawl = styled.section`
-        display: block;
-        width: 200%;
-        height: 200px;
+        display: inline-block;
+        padding-left: 100%;
+        /* show the marquee just outside the paragraph */
+        animation: marquee 50s linear infinite;
 
-        font-family: monospace; /* Web-safe typewriter-like font */
-        border-right: .15em solid orange; /* The typwriter cursor */
-        margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-        letter-spacing: .15em; /* Adjust as needed */
-        animation: 
-            typing 3.5s steps(30, end),
-            blinking-cursor .5s step-end infinite;
-
-          /* The typing effect */
-          @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-          }
-          
-          /* The typewriter cursor effect */
-          @keyframes blinking-cursor {
-            from, to { border-color: transparent }
-            50% { border-color: orange; }
-          }
+        ${marquee}
     `;
 
     let Container = styled.section`
-        height: 200px;
-        width: 420px;
-    
+        width: 450px;
+        margin: 0 auto;
+        white-space: nowrap;
         overflow: hidden;
-        position: relative;
+        box-sizing: border-box;
     `;
 
     return (
@@ -48,6 +31,8 @@ const MovieCrawl = (props) => {
                 {film.opening_crawl}
             </Crawl>
         </Container>
+
+        
     );
 };
 

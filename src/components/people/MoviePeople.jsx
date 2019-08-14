@@ -24,7 +24,8 @@ const MoviePeople = (props) => {
   const [state, setState] = useState({
     characters: [],
     genders: [],
-    loaded: false
+    loaded: false,
+    selectedGender: props.gender
 });
 
   useEffect(() => {
@@ -36,6 +37,12 @@ const MoviePeople = (props) => {
 
         log.debug('genders: %o', genders);
 
+        if (state.selectedGender) {
+          log.debug('filter by selectedGender');
+
+          characters = characters.filter(characters => characters.gender === props.gender);
+        }
+
         setState({
           ...state,
           genders,
@@ -43,23 +50,22 @@ const MoviePeople = (props) => {
           loaded: true
         })
         
-       log.debug('MoviePeople characters: %o', characters)
+      //  log.debug('MoviePeople characters: %o', characters)
       });
     }
-  }, [props.film]);
+  }, [props.film, props.gender]);
 
     let genders = state.genders;
     let loaded = state.loaded;
     let characters = state.characters;
-
-    log.debug('MoviePeople %s characters', characters)
+    let selectedGender = state.selectedGender;
 
     return (
         <Container>
             {loaded ? (
               <Fragment>
                 <h1>Characters</h1>
-                <PeopleFilter film={props.film} genders={genders} />
+                <PeopleFilter film={props.film} genders={genders} selected={selectedGender} />
                 <PeopleTable film={props.film} characters={characters} />
               </Fragment>
 

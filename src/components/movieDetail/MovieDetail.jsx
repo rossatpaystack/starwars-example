@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { getFilm } from 'service/FilmService';
 import log from 'loglevel';
+import queryString  from'query-string';
 
 import MovieCrawl from 'components/movieDetail/MovieCrawl';
 import MoviePeople from 'components/people/MoviePeople';
 import ErrorMessage from 'components/error/ErrorMessage';
+
+import Splash from 'components/splash/Splash';
 
 const Container = styled.section`
   text-align: center;
@@ -20,7 +23,12 @@ const Container = styled.section`
 
 const MovieDetail = (props) => {
     const { match: { params } } = props
-    let id = params.id;
+    const id = params.id;
+
+    const queryParams = queryString.parse(props.location.search);
+    let selectedGender = queryParams.gender;
+
+    log.debug('MovieDetail props %o, gender: %s', props, selectedGender)
 
     const [state, setState] = useState({
         film: {},
@@ -28,12 +36,9 @@ const MovieDetail = (props) => {
     });
     const [error, setError] = useState(false);
 
-    // log.debug('MovieDetail: %s, %o', id, film);
-
     useEffect(() => {
         getFilm(id).then( film => {
-            // setFilm(film);
-
+  
             setState({
                 ...state,
                 film,
@@ -48,10 +53,13 @@ const MovieDetail = (props) => {
       let film = state.film;
 
     return (
+        <>
+        <Splash selected={id} />
         <Container>
             <h1>{film.title}</h1>
             <MovieCrawl film={film}></MovieCrawl>
-            <MoviePeople film={film}></MoviePeople>
+            <MoviePeople film={film} gender={selectedGender}></MoviePeople>
+            
 
             {error &&
                 <h2>
@@ -59,6 +67,7 @@ const MovieDetail = (props) => {
                 </h2>
             }
         </Container>
+        </>
     );
 };
 

@@ -10,8 +10,12 @@ const handleOnChange = (e, data, history) => {
     history.push(`/film/${data.value}`)
 }
 
-const MovieSelect = React.memo(withRouter(({history, ...props}) => {
+const MovieSelect = withRouter(React.memo(({history, ...props}) => {
     let films = props.films;
+
+    let selected = parseInt(props.selected);
+
+    log.debug('MovieSelect props %o, selected: %s', props, selected)
 
     let options = [];
     films.forEach(function(film) {
@@ -23,8 +27,8 @@ const MovieSelect = React.memo(withRouter(({history, ...props}) => {
     })
 
     return (
-        <Select placeholder='Choose a movie' options={options} onChange={(e, data)=> handleOnChange(e, data, history)}/>
+        <Select placeholder='Choose a movie' defaultValue={selected} options={options} onChange={(e, data)=> handleOnChange(e, data, history)}/>
     );
 }));
 
-export default withRouter(MovieSelect);
+export default MovieSelect;

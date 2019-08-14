@@ -41,7 +41,8 @@ const StyledLogo = styled(Logo)`
     ${grow}
 `;
 
-const Splash = () => {
+const Splash = React.memo(({ selected }) => {
+  log.debug('Splash selected: %s', selected)
 
   const [films, setFilms] = useState([]);
   const [error, setError] = useState(false);
@@ -67,7 +68,7 @@ const Splash = () => {
  
       <Container>
         <StyledLogo  />
-        <MovieSelect films={films}/>
+        <MovieSelect films={films} selected={selected}/>
       </Container>
 
       {error &&
@@ -77,6 +78,6 @@ const Splash = () => {
       }
     </div>
   );
-};
+});
 
 export default Splash;
