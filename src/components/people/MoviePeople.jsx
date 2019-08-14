@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect } from 'react'
 import log from 'loglevel';
 import styled from 'styled-components';
 import Spinner from 'react-spinkit';
@@ -29,6 +29,10 @@ const MoviePeople = (props) => {
 });
 
   useEffect(() => {
+    setState({
+      ...state,
+      loaded: false
+    });
     let film = props.film;
     if (film && film.characters) {
       byFilm(film).then(function(characters) {
@@ -49,7 +53,7 @@ const MoviePeople = (props) => {
           characters,
           loaded: true
         })
-        
+
       //  log.debug('MoviePeople characters: %o', characters)
       });
     }
@@ -63,12 +67,11 @@ const MoviePeople = (props) => {
     return (
         <Container>
             {loaded ? (
-              <Fragment>
+              <>
                 <h1>Characters</h1>
                 <PeopleFilter film={props.film} genders={genders} selected={selectedGender} />
                 <PeopleTable film={props.film} characters={characters} />
-              </Fragment>
-
+              </>
             ) : (
               <Spinner name="line-scale" />
             )}

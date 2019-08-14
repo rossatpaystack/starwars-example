@@ -60,7 +60,6 @@ const MovieDetail = (props) => {
             <MovieCrawl film={film}></MovieCrawl>
             <MoviePeople film={film} gender={selectedGender}></MoviePeople>
             
-
             {error &&
                 <h2>
                 <ErrorMessage/>
