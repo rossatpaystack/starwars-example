@@ -32,28 +32,19 @@ const PeopleTable = (props) => {
         
         if (column !== clickedColumn) {
 
-          let sorted = _.sortBy(characters, [clickedColumn]);
+          let sorted;
 
-          if (clickedColumn == 'height') {
-            // log.debug('sortHeights')
-            
-            // lodash can't sort mixed content 
-            // so treat string values as 0
-            log.debug('custom height sort')
-              sorted.sort(function(a, b) {
-                let aHeight = a.height;
-                let bHeight = b.height;
+          if (clickedColumn !== 'height')
+           sorted = _.sortBy(characters, [clickedColumn], Number);
 
-                if (Number.isNaN(a.height)) {
-                  aHeight = 0;
-                }
+          if (clickedColumn === 'height') {
+            // height may contain numeric and non-numeric ('unknown') types
+            const filtered = _.filter(characters, (c) => _.isNumber(c.height));
+            const nonNumeric = _.filter(characters, (c) => !_.isNumber(c.height));
 
-                if (Number.isNaN(b.height)) {
-                  bHeight = 0;
-                }
+            const sortedNumeric = _.sortBy(filtered, [clickedColumn], Number);
 
-                return aHeight > 1;
-              });
+            sorted = _.concat(sortedNumeric, nonNumeric);
           }
 
           setState({
