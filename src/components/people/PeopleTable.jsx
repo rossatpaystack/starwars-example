@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Table } from 'semantic-ui-react'
 import _ from 'lodash'
 import styled from "styled-components";
+import log from 'loglevel';
 
 const SummaryTableCell = styled(Table.Cell)`
   &&& {
@@ -31,10 +32,25 @@ const PeopleTable = (props) => {
         
         if (column !== clickedColumn) {
 
+          let sorted;
+
+          if (clickedColumn !== 'height')
+           sorted = _.sortBy(characters, [clickedColumn], Number);
+
+          if (clickedColumn === 'height') {
+            // height may contain numeric and non-numeric ('unknown') types
+            const filtered = _.filter(characters, (c) => _.isNumber(c.height));
+            const nonNumeric = _.filter(characters, (c) => !_.isNumber(c.height));
+
+            const sortedNumeric = _.sortBy(filtered, [clickedColumn], Number);
+
+            sorted = _.concat(sortedNumeric, nonNumeric);
+          }
+
           setState({
             ...state,
             column: clickedColumn,
-            characters: _.sortBy(characters, [clickedColumn]),
+            characters: sorted,
             direction: 'ascending',
           })
     
